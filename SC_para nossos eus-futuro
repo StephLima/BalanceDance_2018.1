@@ -1,0 +1,319 @@
+// oi eu do futuro
+// nao adianta se enganar
+
+//primeiro vc liga o servidor
+//s.boot e poe pra rodar
+
+//depois vc escreve a funcao e saiba que ela so vai rodar se voce apertar ctrl + enter
+
+//exemplifique
+
+{SinOsc.ar(freq:1600, mul:0.1)}.play //funcao SinOsc geracao de osciladores
+
+
+Document.listener.background = Color(0, 0, 0, 0.5); //mudei a cor do fundo
+
+
+// OSCILADORES: é um circuito eletrónico que produz um sinal electrónico repetitivo,
+//frequentemente uma onda senoidal ou uma onda quadrada, sem a necessidade de aplicação de um sinal externo.
+// Usamos de argumento apenas frequência & amplitude (mul)
+
+{SinOsc.ar(freq:400, mul:1)}.play //som limpinho fechadinho
+{Pulse.ar(freq:400, mul:0.1)}.play //som contínuo tipo video game (so que agudo)
+{Saw.ar(freq:400, mul:0.1)}.play // som continuo tipo video game (so que grave)
+{LFTri.ar(freq:400, mul:1)}.play // som mais agudo que sinosc
+
+
+//RUÍDO
+// o único argumento que usamos nesse caso é a amplitude (o mul)
+
+{WhiteNoise.ar(mul:0.1)}.play
+{BrownNoise.ar (mul:0.1)}.play
+{PinkNoise.ar (mul:0.1)}.play
+
+
+//QUAL A DIFERENÇA ENTRE .ar e .kr? --> ar. vem de audio, kr vem de sintetizador (eu não sei se tá certo isso)
+
+      //AR. costuma remeter a funçôes ligadas a audio
+//Exemplo:  WhiteNoise.ar (gera som ruidoso)
+//          Pulse, SinOsc, Saw, LFTri.ar (geram som limpo)
+
+(
+{Pulse.ar(freq:666, mul:0.2)}.play;
+{Pulse.ar(freq:Line.kr(start:333, end:999, dur:10), mul:0.2)}.play;    //função exemplo de gerar soms
+{Pulse.ar(freq:Line.kr(start:999, end:333, dur:10), mul:0.2)}.play;
+)
+
+
+
+       //KR. costuma remeter a funções ligadas a controle
+// Exemplo: Line.kr (controle o som a partir do decaimento da linha)
+//          MouseX e MouseY.kr (são os principais exemplos de controle pelo mouse)
+
+
+{
+        var x = SinOsc.ar(MouseX.kr(1, 100));
+	SinOsc.ar(300 * x + 800, 0, 0.1)      // função exemplo controle ambulância (ELE USA VARIÁVEL BERRO)
+        +
+        PinkNoise.ar(0.1 * x + 0.1)
+}.play;
+
+
+
+
+
+// NÚMEROS RANDÔMICOS
+// sequência de números que são geradas a partir de uma variante aletória.
+
+//Números randômicos são uteis para diferentes necessidades de aplicações, eles podem ser utilizados em simulações para criação de ambientes, teste de eficiênca de algoritmos, programação de jogos, geração de chaves para criptografá básica, primos é mais recomndável, entre outras. Mas geralmente a geração de números randômicos gera confusão, quando analisado a forma de geração dos mesmos por computadores.
+
+// A primeira questão a esclarecer é que números randômicos gerados por computador de fato não são randômicos.Analisando de forma estritamente abstrata, não existe números randômicos, mas de forma realista um número randômico é uma sequencia independente de valores com uma distribuição específica, ou seja, obtidos atravez de chance e sem relação com os outros números da sequencia. Uma boa distribuição de número randômico é uma sequencia na qual a probabilidade da ocorrência de cada número é a mesma para todos, ou seja em um domínio de 1 a 10, cada número irá ocorre 1/10 vezes, sendo a sequencia uniforme.
+
+// Como dito anteriormente, o computador não pode criar números randômicos, mas pode simular o efeito de criação de sequencias que parecem randômico, são os chamados números pseudo-randômico.
+
+   //para isso é preciso usar
+   rrand(200, 300) //gera um número entre 200 e 300
+   // como ver o número randômico gerado na post window?
+   rrand(200,300).poll
+   // como multiplicar um número randômico
+   rrand(200,300)*5.poll
+
+
+
+
+   // vamos escrever, querida <3
+
+// como simular um hi-hat no super collider?
+   // gerador de ruido como funcao principal + algum sintetizador
+{WhiteNoise.ar(mul:Pulse.ar(freq:1, mul:1))!2}.play
+{BrownNoise.ar(mul:SinOsc.ar(freq:4, mul:0.5))!2}.play
+{SinOsc.ar(freq:rrand(200,201), mul:1)}.play
+{SinOsc.ar(freq:rrand(200,205), mul:1)}.play
+{Saw.ar(freq:Line.kr(start:443, end:rrand(449,479), dur:10), mul:0.2!2)}.play;
+
+
+// eletrônico mulçumano cigano
+(
+{SinOsc.ar(freq:185, mul:0.3)}.play;
+{SinOsc.ar(freq:187, mul:0.2)}.play;
+//{BrownNoise.ar(mul:Line.kr(start:0, end:0.3, dur:3))}.play;
+{WhiteNoise.ar(mul:Pulse.ar(freq:1, mul:1))!2}.play;
+{LFTri.ar(freq:LFNoise0.kr(freq:8).range(443, 479), mul:0.1)!2}.play;
+{Pulse.ar(freq: LFNoise0.kr(freq:4).range(333,666),mul: 0.3)}.play;
+)
+
+
+// verônika decide morrer
+(
+{Pulse.ar(freq: MouseX.kr(minval:1000, maxval:600), mul:MouseY.kr(minval:0.1, maxval:0))}.play;
+{LFTri.ar(freq:rrand (1400, 900), mul: MouseX.kr(minval:0.1,maxval:0.2))}.play;
+{Saw.ar(freq: 100, mul: Line.kr(start:0.1, end:0, dur:60))}.play;
+)
+
+
+
+// ligação dos alienígenas
+{LFTri.ar(freq:LFNoise0.kr(freq:5).range(53, 911), mul:0.1)!2}.play;
+
+
+
+
+
+// voltando a mexer no SuperCollider é pavoroso
+// mas a gente consegue.
+// a ideia é a gente brincar e se divertir não é mesmo?
+
+
+
+  // ESQUECI DE ANOTAR
+//Shepard Tone: construção sonora que consiste na superposição de ondas senoidais separadas por oitavas
+  // É O QUE?
+// Veja essa imagem: é se ouvessem 3 ondas sonoras que evoluíssem na mesma medida, a onda do meio permanece crescendo enquanto as ondas das extremidades uma sobe a oitava e a outra desce - ou seja, elas estarão crescendo para a eternidade
+
+
+// mostra isso ae coleguinha:
+{ Saw.ar(freq:Line.kr(start:1000, end:10, dur:10), mul:1)}.play; //som descendente
+{ Saw.ar(freq:Line.kr(start:10, end:1000, dur:10), mul:1)}.play; //som ascendente
+   // a duração interfere no tempo total da composição no fim das contas
+
+
+
+//novos amiguinhos
+
+s.volume.gui
+// é um slider visual para o volume
+s.meter
+// indica a amplitude do som conforme ele toca
+s.freqscope
+// mostra a frequência em imagem (eu anotei na aula "tudo o que você quiser fazer rodar, roda sempre mas não sei o que significa)
+
+
+
+// FILTROS SONOROS
+   //deixam passar o som de algumas frequências e não deixa passar em outras coisas
+// Usamos de argumento apenas frequência :] meio obvio né more e usam "in:" como input para tocar
+
+//Low Pass Filter
+// para frequências graves
+{LPF.ar(in: BrownNoise.ar(mul:1), freq(SinOsc.ar(freq:200, mul:1))}.play; //nao tocou nao sei porque
+{LPF.ar(in:WhiteNoise.ar(mul:0.5), freq:MouseX.kr(minval:50, maxval:15000))}.play;
+
+
+// High Pass Filter
+// filtra sequências agudas
+{HPF.ar(in:BrownNoise.ar(mul:0.4), freq:Line.kr(start:20000, end:50, dur:4))!2}.play;
+	//tipo Shepard Tone mas com ruído
+
+
+//Ringz
+// Assobio maneirinho
+// CUIDADO! input do Ringz (muitas vezes) precisa ter amplitude muito reduzida!!!!
+{Ringz.ar(in:WhiteNoise.ar(mul:0.005), freq:MouseX.kr(200, 5000))!2}.play
+
+// quaisquer geradores de som (como osciladores) podem ser inputs de um filtro
+	//PERGUNTA: pbind pode ser input? eu tentei mas não rolou why?
+
+{LPF.ar(in:Pulse.ar(freq:300, mul:0.2), freq:MouseX.kr(100, 20000)!2)}.freqscope
+{HPF.ar(in:Pulse.ar(freq:300, mul:0.2), freq:MouseX.kr(100, 20000)!2)}.freqscope
+
+{Ringz.ar(in:Saw.ar(freq:300, mul:0.005),freq:MouseX.kr(100, 5000)!2)}.freqscope
+
+
+
+	//////////////////////// OBS //////////////////////////////////////
+
+
+// !2 que diabo é isso?
+	// não sei mas sei que quando vc põe toca nos dois fones, mas em algumas situs, só toca se tiver isso
+
+
+	//////////////////////////////////////////////////////////////////
+
+
+
+//IMPULSOS SONOROS
+//chiques e maneiras novas de gerar som em termos de ruído
+// DUST ou IMPULSE
+
+
+	// Dust > tipo de ruído branco > usa só a densidade (muda o valor; fica mais lentinho)
+	{Dust.ar(density:3000)!2}.play
+	{Dust.ar(density:1500)!2}.play
+
+
+{Pulse.ar(freq:Dust.ar(density:9000), mul:4)!2}.play
+	// tá rolando alguma parada aqui mas não tenho a menor ideia do que eu to fazendo
+
+
+	// Impulse > ruído equilibrado > usa a frequência
+	{Impulse.ar(freq:3)!2}.play
+	{Impulse.ar(freq:5)!2}.play
+	// toquei 20x o segundo e ai começou a ficar maneiro
+
+
+// Magno acha isso <3 mas eu não acho muito não
+{Ringz.ar(in:Impulse.ar(5), freq:600, mul:0.2)!2}.play
+
+
+{Ringz.ar(in:Impulse.ar(3), freq:600, mul:0.2)!2}.play
+{Ringz.ar(in:Impulse.ar(9), freq:600, mul:0.2)!2}.play
+
+
+{Ringz.ar(in:Impulse.ar(3), freq:1000, mul:0.5)!2}.play
+{Ringz.ar(in:Impulse.ar(6), freq:1001, mul:0.5)!2}.play
+	// legalzin :)
+
+
+// RESSONÂNCIA PROLONGADA
+	// Como fazer algo ressoar por mais ou menos tempo : DECAYTIME
+	// Magno usou no Ringz, mas talvez de pra usar em outros lugares
+
+
+{Ringz.ar(in:Impulse.ar(2), freq:600, decaytime:MouseX.kr(0.1, 1))!2}.play
+//nesse exemplo ele usa o mouse para controlar o tempo, talvez dê pra fazer isso aleatoriamente, mas já acho bem bacaninha
+
+
+
+	// você conhece Grimes (toca ao mesmo tempo)
+{Ringz.ar(in:Impulse.ar(5), freq:100, decaytime:MouseX.kr(0.8, 2))!2}.play
+{Ringz.ar(in:Impulse.ar(6), freq:100, decaytime:MouseX.kr(0.8, 2))!2}.play
+//{Ringz.ar(in:Impulse.ar(2), freq:50, decaytime:MouseX.kr(1, 2))!2}.play
+
+
+
+//////////////-----------------------------------------------/////////////////////////////
+
+	//para o nosso choro ou salvação
+	// VARIÁVEIS NO SUPERCOLLIDER
+
+// SC é bem legal com variável, porque deixa a gente fazer muita coisa
+	// mas ele também não é essa lindeza toda
+// PARA VARIÁVEIS NÃO USE DE JEITO NENHUM > espaço / número / letra maiúscula
+
+	// a leitura é bastante parecida com o processing, você declara quem é e depois lê
+	// parece feio, mas só parece mesmo :)
+
+
+	//ps. na aula ele falou que freOsc era diferente de trigger (?)
+	//ps.2. como fazer a variavel ser global (?)
+	//ps.3. var na mesma linha torna-se local
+
+
+// Magno que fez 1
+(
+{
+	var geradorSom, freqFiltro;
+
+	geradorSom = Pulse.ar(300, mul:0.2);
+	// geradorSom = WhiteNoise.ar(0.5);
+	freqFiltro = MouseX.kr(200, 15000);
+
+	LPF.ar(in:geradorSom, freq:freqFiltro)!2;
+
+}.play
+)
+
+
+
+// Magno que fez 2
+
+{
+	var trigger, freqFiltro, banana;
+
+	trigger = Dust.ar(2, mul:0.3);
+	freqFiltro = 200;
+	banana = MouseX.kr(0.1, 10);
+
+	Ringz.ar(trigger, freqFiltro * 1, decaytime:banana, mul:0.3) +
+	Ringz.ar(trigger, freqFiltro * 2, decaytime:banana * 2 , mul:0.3) +
+	Ringz.ar(trigger, freqFiltro * 3, decaytime:banana / 2 , mul:0.3) !2
+}.freqscope
+)
+
+
+/////////////////////////////////////////////
+///// NOVOS AMIGOS LEGAIS //////////////////
+
+
+// Mensagem .range(lo, hi): uma operação matemática que podemos realizar sobre a saída de um Gerador. O que quer que seja devolvido por um Gerador será mapeado em um novo âmbito, compreendido entre os limites inferior (lo) e superior (hi) do .range. Exemplo:
+
+(
+{Pulse.ar(freq: LFNoise0.kr(freq: 5).range(220, 550),mul: 0.3)}.play;
+)
+
+// testes mil
+(
+{Pulse.ar(freq: LFNoise0.kr(freq:5).range(4, 200),mul: 0.3)}.play;
+{Pulse.ar(freq: LFNoise0.kr(freq:5).range(300,1000),mul: 0.3)}.play;
+)
+
+
+// NOVO GERADOR DE SOM
+// Blip usa apenas freq e mul também
+
+(
+{Blip.ar(freq: LFNoise0.kr(freq: 10).range(440, 660),mul: 0.5)}.play;
+)
+
+
+
